@@ -18,16 +18,26 @@ namespace GameFish
             mFishList = new List<GOFish>();
 			mFactory = GetComponent<SCFactory>();
 			mConfig = GetComponent<SCConfig> ();
-			AddTimeline ();
+			AddTimeline (1);
 			StartUpdate ();
         }
 
-		void AddTimeline()
+		void AddTimeline(int idx)
 		{
-			GOTimeline timeline = mFactory.CreateTimeline ().GetComponent<GOTimeline>();
-			timeline.mConfig = mConfig;
-			timeline.mFactory = mFactory;
-			mTimelineList.Add (timeline);
+            int roomid = 1;
+            int id = 320000000 + 100000 * roomid + idx * 1000;
+			GOTimeline client = mFactory.CreateTimeline ().GetComponent<GOTimeline>();
+            client.mConfig = mConfig;
+            client.mFactory = mFactory;
+            client.SetStartID(id);
+            mTimelineList.Add(client);
+
+            id = 320000000 + 100000 * roomid + idx * 1000 + 90000;
+            GOTimeline server = mFactory.CreateTimeline().GetComponent<GOTimeline>();
+            server.mConfig = mConfig;
+            server.mFactory = mFactory;
+            server.SetStartID(id);
+            mTimelineList.Add(server);
 		}
 
         void StartUpdate()

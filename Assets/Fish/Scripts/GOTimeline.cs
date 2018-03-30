@@ -18,7 +18,7 @@ namespace GameFish
         };
         tagTimelineUnit mCurUnit;
 
-        void Start()
+        void Awake()
         {
             mStartID = 320101000;
             mCurUnit = new tagTimelineUnit();
