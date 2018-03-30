@@ -170,6 +170,7 @@ public class BuildAnimation : Editor
         animator1.runtimeAnimatorController = animatorCountorller;
 
         shadow.transform.parent = go.transform;
+        shadow.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         shadow.transform.position = new Vector3(30.0f / 100.0f, -40.0f / 100.0f, 0.0f);
 
 
