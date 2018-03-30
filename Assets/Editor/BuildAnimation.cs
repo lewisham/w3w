@@ -161,6 +161,18 @@ public class BuildAnimation : Editor
 		go.AddComponent<GameFish.GOFish> ();
 
 
+        GameObject shadow = new GameObject();
+        shadow.name = "shadow";
+        SpriteRenderer spriteRender1 = shadow.AddComponent<SpriteRenderer>();
+        spriteRender1.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(DataPathToAssetPath(images.FullName));
+        spriteRender1.color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+        Animator animator1 = shadow.AddComponent<Animator>();
+        animator1.runtimeAnimatorController = animatorCountorller;
+
+        shadow.transform.parent = go.transform;
+        shadow.transform.position = new Vector3(30.0f / 100.0f, -40.0f / 100.0f, 0.0f);
+
+
 
         PrefabUtility.CreatePrefab(PrefabPath + "/" + go.name + ".prefab", go);
         DestroyImmediate(go);
