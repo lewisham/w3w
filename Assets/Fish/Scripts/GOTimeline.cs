@@ -7,8 +7,8 @@ namespace GameFish
     public class GOTimeline : MonoBehaviour
     {
         int mStartID;
-        int mCurFrame;
         public SCConfig mConfig;
+		public SCFactory mFactory;
 
         struct tagTimelineUnit
         {
@@ -21,16 +21,9 @@ namespace GameFish
         void Start()
         {
             mStartID = 320101000;
-            mCurFrame = 0;
             mCurUnit = new tagTimelineUnit();
-            InvokeRepeating("TestFrame", 1.0f, 0.05f);
         }
-
-        void TestFrame()
-        {
-            mCurFrame = mCurFrame + 1;
-            UpdateFrame(mCurFrame);
-        }
+			
 
         bool GetUnit(int id)
         {
@@ -53,7 +46,13 @@ namespace GameFish
             }
             else
             {
-                Debug.Log(mCurUnit.fishid);
+				GameObject go = mFactory.CreateFish (mCurUnit.fishid);
+				if (go == null)
+					return;
+				GOFish fish = go.GetComponent<GOFish> ();
+                fish.SetInfo(mConfig.GetFish(mCurUnit.fishid));
+				fish.SetPath (mConfig.GetPath (mCurUnit.pathid + 300000000));
+				fish.GotoFrame (0);
             }
         }
 

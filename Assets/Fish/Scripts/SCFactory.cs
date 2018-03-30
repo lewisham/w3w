@@ -6,20 +6,26 @@ namespace GameFish
 {
     public class SCFactory : MonoBehaviour
     {
-        public Dictionary<int, GameObject> mFish;
+		public GameObject mTimeLine;
         void Start()
         {
-
+			
         }
 
         public GameObject CreateFish(int id)
         {
-            return null;
+            string path = string.Format("Assets/Fish/Prefabs/Fish/fishid{0}.prefab", id - 100000000);
+            Object prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(GameObject));
+            if (prefab == null)
+                return null;
+            GameObject go = Instantiate(prefab) as GameObject;
+			return go;
         }
 
-        public GameObject CreateTimeline(int id)
+        public GameObject CreateTimeline()
         {
-            return null;
+			GameObject go = Instantiate(mTimeLine) as GameObject;
+			return go;
         }
     }
 }
