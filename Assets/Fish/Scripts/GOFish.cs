@@ -26,6 +26,7 @@ namespace GameFish
         {
             public int rotate_type;
             public int show_layer;
+            public Vector2[] points;
         };
 
         tagFishInfo mFishInfo;
@@ -39,6 +40,19 @@ namespace GameFish
             mCurFrame = 0;
             mTotalFrame = 0;
         }
+
+
+		void Start()
+		{
+            PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
+            collider.isTrigger = true;
+            collider.SetPath(0, mFishInfo.points);
+        }
+
+        void Update()
+		{
+			
+		}
 
         // 当前路径信息
 		void CalcPointInfo()
@@ -78,6 +92,17 @@ namespace GameFish
         {
             mFishInfo.rotate_type = int.Parse(info[11]);
             mFishInfo.show_layer = int.Parse(info[12]);
+            string[] vals = info[14].Split(';');
+            int length = vals.Length / 2;
+            Vector2[] points = new Vector2[length];
+            int idx = 0;
+            for (int i = 0; i < length * 2; i += 2)
+            {
+                points[idx].x = float.Parse(vals[i]) / 100;
+                points[idx].y = -float.Parse(vals[i + 1]) / 100;
+                idx++;
+            }
+            mFishInfo.points = points;
         }
 
         // 设置游的路径

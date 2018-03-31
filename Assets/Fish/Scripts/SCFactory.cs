@@ -7,6 +7,7 @@ namespace GameFish
     public class SCFactory : MonoBehaviour
     {
 		public GameObject mTimeLine;
+		public GameObject mBullet;
         void Start()
         {
 			
@@ -26,6 +27,22 @@ namespace GameFish
         {
 			GameObject go = Instantiate(mTimeLine) as GameObject;
 			return go;
+        }
+
+		public GameObject CreateBullet()
+		{
+			GameObject go = Instantiate(mBullet) as GameObject;
+			return go;
+		}
+
+        public GameObject CreateNet(int id)
+        {
+            string path = string.Format("Assets/Fish/Prefabs/Net/net_{0}.prefab", id);
+            Object prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(GameObject));
+            if (prefab == null)
+                return null;
+            GameObject go = Instantiate(prefab) as GameObject;
+            return go;
         }
     }
 }
