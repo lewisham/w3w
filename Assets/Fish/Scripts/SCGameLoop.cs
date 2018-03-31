@@ -18,7 +18,7 @@ namespace GameFish
             mFishList = new List<GOFish>();
 			mFactory = GetComponent<SCFactory>();
 			mConfig = GetComponent<SCConfig> ();
-			AddTimeline (4);
+			AddTimeline (Random.Range(1, 6));
 			StartUpdate ();
         }
 

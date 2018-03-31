@@ -11,8 +11,10 @@ namespace GameFish
         int mTotalFrame;
         int mCurFrame;
 
+        static Vector3 ShadowOffset = new Vector3(30.0f / 100.0f, -40.0f / 100.0f, 0.0f);
+
         // 路径信息
-		struct tagPointInfo
+        struct tagPointInfo
 		{
 			public float x;
 			public float y;
@@ -30,6 +32,8 @@ namespace GameFish
         };
 
         tagFishInfo mFishInfo;
+
+        Transform mShadow;
         
         void Awake()
         {
@@ -47,11 +51,16 @@ namespace GameFish
             PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
             collider.isTrigger = true;
             collider.SetPath(0, mFishInfo.points);
+
+            mShadow = transform.Find("shadow");
         }
 
         void Update()
 		{
-			
+			if (mShadow)
+            {
+                mShadow.position = transform.position + ShadowOffset;
+            }
 		}
 
         // 当前路径信息
