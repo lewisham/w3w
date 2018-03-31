@@ -47,7 +47,7 @@ namespace GameFish
 
         void UpdateFrame()
         {
-            foreach(GOTimeline timeline in mTimelineList)
+            foreach (GOTimeline timeline in mTimelineList)
             {
 				timeline.UpdateFrame (mCurFrame);
             }

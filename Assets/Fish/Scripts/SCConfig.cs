@@ -29,7 +29,7 @@ namespace GameFish
         }
 
         // Use this for initialization
-        void Start()
+        void Awake()
         {
             mTimelines = new Dictionary<int, string[]>();
             mFishPath = new Dictionary<int, string[]>();
@@ -47,14 +47,8 @@ namespace GameFish
         // 加载时间线
         void LoadTimeline()
         {
-            string path = Application.dataPath + "/Fish/DataBin/timeline.txt";
-            StreamReader sr;
-            sr = File.OpenText(path);
-            string content = sr.ReadToEnd();
-            sr.Close();
-            sr.Dispose();
-
-            content = content.Replace("\r", "");
+            TextAsset ret = (TextAsset)Resources.Load("DataBin/timeline");
+            string content = ret.text.Replace("\r", "");
             string[] lines = content.Split('\n');
             int id = 0;
             for (int i = 2; i < lines.Length; i++)
@@ -68,14 +62,8 @@ namespace GameFish
         // 加载路径
         void LoadPath()
         {
-            string path = Application.dataPath + "/Fish/DataBin/fishpath.txt";
-            StreamReader sr;
-            sr = File.OpenText(path);
-            string content = sr.ReadToEnd();
-            sr.Close();
-            sr.Dispose();
-
-            content = content.Replace("\r", "");
+            TextAsset ret = (TextAsset)Resources.Load("DataBin/fishpath");
+            string content = ret.text.Replace("\r", "");
             string[] lines = content.Split('\n');
             int id = 0;
             for (int i = 2; i < lines.Length; i++)
@@ -89,14 +77,8 @@ namespace GameFish
         // 加载鱼的配置数据
         void LoadFish()
         {
-            string path = Application.dataPath + "/Fish/DataBin/fish.txt";
-            StreamReader sr;
-            sr = File.OpenText(path);
-            string content = sr.ReadToEnd();
-            sr.Close();
-            sr.Dispose();
-
-            content = content.Replace("\r", "");
+            TextAsset ret = (TextAsset)Resources.Load("DataBin/fish");
+            string content = ret.text.Replace("\r", "");
             string[] lines = content.Split('\n');
             int id = 0;
             for (int i = 2; i < lines.Length; i++)

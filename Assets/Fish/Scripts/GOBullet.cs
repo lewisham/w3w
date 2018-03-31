@@ -6,7 +6,7 @@ namespace GameFish
 {
 	public class GOBullet : MonoBehaviour {
 
-        public float speed = 1000.0f;
+        public float speed = 800.0f;
         Vector3 mVec;
         Rect mBox;
 		// Use this for initialization
@@ -70,7 +70,6 @@ namespace GameFish
 
         public void Launch(Vector3 vec)
 		{
-            Debug.Log(Screen.width);
             vec.z = 0;
             vec.Normalize();
             mVec = vec * speed / 100;

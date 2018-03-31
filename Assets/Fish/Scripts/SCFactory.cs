@@ -8,6 +8,8 @@ namespace GameFish
     {
 		public GameObject mTimeLine;
 		public GameObject mBullet;
+        public GameObject mFish;
+        public Dictionary<int, GameObject> mFishDic;
         void Start()
         {
 			
@@ -15,8 +17,12 @@ namespace GameFish
 
         public GameObject CreateFish(int id)
         {
-            string path = string.Format("Assets/Fish/Prefabs/Fish/fishid{0}.prefab", id - 100000000);
-            Object prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(GameObject));
+            /*
+            GameObject go = Instantiate(mFish) as GameObject;
+            return go;
+            */
+            string path = string.Format("Fish/fishid{0}", id - 100000000);
+            Object prefab = Resources.Load(path, typeof(GameObject));
             if (prefab == null)
                 return null;
             GameObject go = Instantiate(prefab) as GameObject;
@@ -37,8 +43,8 @@ namespace GameFish
 
         public GameObject CreateNet(int id)
         {
-            string path = string.Format("Assets/Fish/Prefabs/Net/net_{0}.prefab", id);
-            Object prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(GameObject));
+            string path = string.Format("Net/net_{0}", id);
+            Object prefab = Resources.Load(path, typeof(GameObject));
             if (prefab == null)
                 return null;
             GameObject go = Instantiate(prefab) as GameObject;
