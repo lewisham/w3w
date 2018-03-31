@@ -2,3 +2,6 @@
 /obj
 /.vs
 *.meta
+/Library
+/*.sln
+/*.userprefs

@@ -26,7 +26,9 @@ namespace GameFish
 
         public void Launch(Vector3 vec)
 		{
+            vec.z = 0;
             vec.Normalize();
+            Debug.Log(vec);
             vec *= 30.0f;
             float duration = vec.magnitude * 100 / speed;
             vec += transform.position;
