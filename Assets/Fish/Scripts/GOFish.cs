@@ -10,6 +10,7 @@ namespace GameFish
         int mBornFrame;
         int mTotalFrame;
         int mCurFrame;
+        int mMoveCnt;
 
         static Vector3 ShadowOffset = new Vector3(30.0f / 100.0f, -40.0f / 100.0f, 0.0f);
 
@@ -43,12 +44,14 @@ namespace GameFish
             mBornFrame = 0;
             mCurFrame = 0;
             mTotalFrame = 0;
+            mMoveCnt = 0;
         }
 
 
 		void Start()
 		{
             PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
+            collider.tag = "fish";
             collider.isTrigger = true;
             collider.SetPath(0, mFishInfo.points);
 
@@ -92,7 +95,8 @@ namespace GameFish
             GetComponent<SpriteRenderer>().sortingOrder = mFishInfo.show_layer;
 			CalcPointInfo ();
 			gameObject.transform.position = new Vector3(mPointInfo.x, mPointInfo.y, 0);
-            InvokeRepeating("DoMove", 0.01f, 0.15f);
+            mMoveCnt = 0;
+            //InvokeRepeating("DoMove", 0.01f, 0.15f);
             return true;
         }
 
@@ -127,8 +131,15 @@ namespace GameFish
 			Destroy(gameObject);
         }
 
-        void DoMove()
+        // 游动
+        public void DoMove()
         {
+            if (mMoveCnt > 0)
+            {
+                mMoveCnt--;
+                return;
+            }
+            mMoveCnt = 3;
             if (mCurFrame + 3 > mTotalFrame)
             {
                 RemoveFromScreen();
@@ -137,6 +148,28 @@ namespace GameFish
 			CalcPointInfo ();
             mCurFrame = mCurFrame + 3;
 			MoveTo ();
+        }
+
+        // 设置动画速度
+        public void SetAnimationSpeed(float s)
+        {
+            GetComponent<Animator>().speed = s;
+            if (mShadow)
+            {
+                mShadow.GetComponent<Animator>().speed = s;
+            }
+        }
+
+        // 开始冰冻
+        public void DoStartFreeze()
+        {
+            SetAnimationSpeed(0);
+        }
+
+        // 结束冰冻
+        public void DoEndFreeze()
+        {
+            SetAnimationSpeed(1);
         }
     }
 }

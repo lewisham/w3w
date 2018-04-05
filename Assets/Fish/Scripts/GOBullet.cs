@@ -20,7 +20,13 @@ namespace GameFish
 		// Update is called once per frame
 		void Update ()
         {
-            Vector3 pos  = transform.position;
+            CheckEdge();
+        }
+
+        // 边界检测
+        void CheckEdge()
+        {
+            Vector3 pos = transform.position;
             if (pos.x < mBox.xMin)
             {
                 //pos.y = pos.y - (pos.x - mBox.xMin) / mVec.x * mVec.y;
@@ -28,21 +34,21 @@ namespace GameFish
                 mVec.x = -mVec.x;
                 RecalcAngle();
             }
-            else if(pos.x > mBox.xMax)
+            else if (pos.x > mBox.xMax)
             {
                 //pos.y = pos.y - (pos.x - mBox.xMax) / mVec.x * mVec.y;
                 pos.x = mBox.xMax - (pos.x - mBox.xMax);
                 mVec.x = -mVec.x;
                 RecalcAngle();
             }
-            else if(pos.y < mBox.yMin)
+            else if (pos.y < mBox.yMin)
             {
                 //pos.x = pos.x - (pos.y - mBox.yMin) / mVec.y * mVec.x;
                 pos.y = mBox.yMin - (pos.y - mBox.yMin);
                 mVec.y = -mVec.y;
                 RecalcAngle();
             }
-            else if(pos.y > mBox.yMax)
+            else if (pos.y > mBox.yMax)
             {
                 //pos.x = pos.x - (pos.y - mBox.yMax) / mVec.y * mVec.x;
                 pos.y = mBox.yMax - (pos.y - mBox.yMax);
@@ -57,11 +63,15 @@ namespace GameFish
 
         void OnTriggerEnter2D(Collider2D other)
         {
+            if (other.tag != "fish") return;
             GameObject go = GameObject.Find("GameLoop").GetComponent<SCFactory>().CreateNet(1);
+            if (go == null) return;
+
             go.transform.position = transform.position;
             Destroy(gameObject);
         }
 
+        // 重新计算朝向
         void RecalcAngle()
         {
             float angle = Mathf.Atan2(mVec.y, mVec.x) * Mathf.Rad2Deg - 90;

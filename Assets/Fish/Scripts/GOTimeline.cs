@@ -49,7 +49,7 @@ namespace GameFish
 				GameObject go = mFactory.CreateFish (mCurUnit.fishid);
 				if (go == null)
 					return;
-				GOFish fish = go.GetComponent<GOFish> ();
+                GOFish fish = go.GetComponent<GOFish> ();
                 fish.SetInfo(mConfig.GetFish(mCurUnit.fishid));
 				fish.SetPath (mConfig.GetPath (mCurUnit.pathid + 300000000));
 				fish.GotoFrame (0);

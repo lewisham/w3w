@@ -7,21 +7,26 @@ namespace GameFish
     public class SCGameLoop : MonoBehaviour
     {
         List<GOTimeline> mTimelineList;
-        List<GOFish> mFishList;
+        GameObject mFishPool;
 		SCFactory mFactory;
 		SCConfig mConfig;
 		int mCurFrame;
+
+        bool mbFreeze; // 是否冰冻
+
         void Start()
         {
 			mCurFrame = 0;
+            mbFreeze = false;
             mTimelineList = new List<GOTimeline>();
-            mFishList = new List<GOFish>();
 			mFactory = GetComponent<SCFactory>();
 			mConfig = GetComponent<SCConfig> ();
-			AddTimeline (Random.Range(1, 6));
+            mFishPool = GameObject.Find("FishPool");
+            AddTimeline (Random.Range(1, 6));
 			StartUpdate ();
         }
 
+        // 添加时间线
 		void AddTimeline(int idx)
 		{
             int roomid = 1;
@@ -40,23 +45,50 @@ namespace GameFish
             mTimelineList.Add(server);
 		}
 
+        // 开如更新
         void StartUpdate()
         {
             InvokeRepeating("UpdateFrame", 0.01f, 0.05f);
         }
 
+        // 更新一帧
         void UpdateFrame()
         {
+            if (mbFreeze) return;
             foreach (GOTimeline timeline in mTimelineList)
             {
 				timeline.UpdateFrame (mCurFrame);
             }
 
-            foreach (GOFish fish in mFishList)
+            GOFish[] fishes = mFishPool.GetComponentsInChildren<GOFish>();
+            foreach (GOFish fish in fishes)
             {
-
+                fish.DoMove();
             }
 			mCurFrame += 1;
+        }
+
+        // 冰冻所有的鱼(开关)
+        public void FreezeAllFish(bool bo)
+        {
+            if (bo)
+            {
+                mbFreeze = true;
+                GOFish[] fishes = mFishPool.GetComponentsInChildren<GOFish>();
+                foreach (GOFish fish in fishes)
+                {
+                    fish.DoStartFreeze();
+                }
+            }
+            else
+            {
+                mbFreeze = false;
+                GOFish[] fishes = mFishPool.GetComponentsInChildren<GOFish>();
+                foreach (GOFish fish in fishes)
+                {
+                    fish.DoEndFreeze();
+                }
+            }
         }
     }
 }

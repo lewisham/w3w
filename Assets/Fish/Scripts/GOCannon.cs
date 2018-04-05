@@ -9,33 +9,20 @@ namespace GameFish
         Transform mGun;
         Transform mBasePos;
         Transform mLancherPos;
+
+        AudioSource mAudioSource;
 		// Use this for initialization
-		void Start () {
+		void Start ()
+        {
             mGun = transform.Find("Gun");
             mBasePos = mGun.transform.Find("BasePos");
             mLancherPos = mGun.transform.Find("LancherPos");
-            //InvokeRepeating("FirePre", 0.01f, 1.05f);
+            mAudioSource = GetComponent<AudioSource>();
         }
 
-		// Update is called once per frame
-		void Update ()
-        {
-            if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))//鼠标或触摸事件  
-            {
-                if (!IsInvoking("FirePre"))
-                {
-                    InvokeRepeating("FirePre", 0.00f, 0.2f);
-                }
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                CancelInvoke("FirePre");
-            }
-        }
-
-
-		void FirePre()
+		public void FirePre()
 		{
+            mAudioSource.Play();
             Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 vec = worldPoint - mBasePos.position;
             float angle = Mathf.Atan2(vec.y, vec.x) * Mathf.Rad2Deg - 90;
